@@ -2,6 +2,9 @@
 
 This extension provides syntax highlighting for CodeStruct notation, a language-agnostic format for describing code structure.
 
+> [!Note]
+> This project is part of [CodeMap](https://github.com/SarthakMishra/codemap). CodeStruct notation helps compress codebases for LLM context while preserving their meaning and structure.
+
 ## Features
 
 - Syntax highlighting for CodeStruct notation

@@ -11,7 +11,7 @@
   "icon": "images/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SarthakMishra/codemap"
+    "url": "https://github.com/SarthakMishra/codestruct-vscode"
   },
   "engines": {
     "vscode": "^1.60.0"
