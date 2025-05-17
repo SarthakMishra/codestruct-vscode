@@ -52,7 +52,7 @@
       {
         "language": "codestruct",
         "scopeName": "source.codestruct",
-        "path": "./syntaxes/codestruct.tmLanguage.json"
+        "path": "./codestruct/grammars/codestruct.tmLanguage.json"
       },
       {
         "language": "codemap",
