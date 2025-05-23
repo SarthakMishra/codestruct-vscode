@@ -1,8 +1,8 @@
 {
   "name": "codestruct",
   "displayName": "CodeStruct",
-  "description": "Syntax highlighting for CodeStruct notation",
-  "version": "0.1.4",
+  "description": "Language support for CodeStruct notation with LSP features",
+  "version": "0.1.5",
   "publisher": "SarthakMishra",
   "author": {
     "name": "Sarthak Mishra"
@@ -14,8 +14,12 @@
     "url": "https://github.com/SarthakMishra/codestruct-vscode"
   },
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.78.0",
+    "node": ">=16.17.1"
   },
+  "extensionDependencies": [
+    "ms-python.python"
+  ],
   "categories": [
     "Programming Languages"
   ],
@@ -24,8 +28,14 @@
     "code structure",
     "notation",
     "syntax highlighting",
-    "llm"
+    "llm",
+    "language server",
+    "lsp"
   ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
   "contributes": {
     "languages": [
       {
@@ -52,7 +62,7 @@
       {
         "language": "codestruct",
         "scopeName": "source.codestruct",
-        "path": "./codestruct/grammars/codestruct.tmLanguage.json"
+        "path": "./syntaxes/codestruct.tmLanguage.json"
       },
       {
         "language": "codemap",
@@ -66,6 +76,148 @@
         "label": "CodeStruct Icons",
         "path": "./icons/icons-theme.json"
       }
+    ],
+    "commands": [
+      {
+        "command": "codestruct.server.restart",
+        "title": "Restart Language Server",
+        "category": "CodeStruct"
+      },
+      {
+        "command": "codestruct.server.executeCommand",
+        "title": "Execute Server Command",
+        "category": "CodeStruct"
+      }
+    ],
+    "configuration": [
+      {
+        "type": "object",
+        "title": "Server Configuration",
+        "properties": {
+          "codestruct.server.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "description": "Enable CodeStruct language server"
+          },
+          "codestruct.server.pythonPath": {
+            "scope": "resource",
+            "type": "string",
+            "default": "",
+            "description": "The python interpreter to use to run the server. By default, this extension will attempt to use the Python interpreter configured via the Python extension."
+          },
+          "codestruct.server.cwd": {
+            "scope": "resource",
+            "type": "string",
+            "description": "The working directory from which to launch the server.",
+            "markdownDescription": "The working directory from which to launch the server.\nIf blank, this will default to the workspace root directory."
+          },
+          "codestruct.server.debug": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": false,
+            "description": "Enable debug mode for the language server"
+          },
+          "codestruct.server.debugHost": {
+            "scope": "resource",
+            "type": "string",
+            "default": "localhost",
+            "description": "Debug host for language server debugging"
+          },
+          "codestruct.server.debugPort": {
+            "scope": "resource",
+            "type": "number",
+            "default": 6009,
+            "description": "Debug port for language server debugging"
+          },
+          "codestruct.trace.server": {
+            "scope": "resource",
+            "type": "string",
+            "enum": ["off", "messages", "verbose"],
+            "default": "off",
+            "description": "Controls if LSP messages send to/from the server should be logged.",
+            "enumDescriptions": [
+              "do not log any lsp messages",
+              "log all lsp messages sent to/from the server",
+              "log all lsp messages sent to/from the server, including their contents"
+            ]
+          }
+        }
+      },
+      {
+        "type": "object",
+        "title": "Language Features Configuration",
+        "properties": {
+          "codestruct.linting.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "description": "Enable linting diagnostics"
+          },
+          "codestruct.formatting.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "description": "Enable document formatting"
+          },
+          "codestruct.completion.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "description": "Enable code completion"
+          }
+        }
+      },
+      {
+        "type": "object",
+        "title": "Client Configuration",
+        "properties": {
+          "codestruct.client.documentSelector": {
+            "scope": "window",
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "default": [
+              {
+                "scheme": "file",
+                "language": "codestruct"
+              },
+              {
+                "scheme": "untitled",
+                "language": "codestruct"
+              }
+            ],
+            "description": "The client uses this to decide which documents the server is able to help with."
+          }
+        }
+      }
     ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.78.0",
+    "@types/node": "^16.17.1",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0",
+    "typescript": "^5.1.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "ts-loader": "^9.4.4"
+  },
+  "dependencies": {
+    "@vscode/python-extension": "^1.0.4",
+    "vscode-languageclient": "^8.1.0"
   }
 }
