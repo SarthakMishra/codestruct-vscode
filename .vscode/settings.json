@@ -1,0 +1,22 @@
+{
+    "codestruct.server.enabled": true,
+    "codestruct.server.debug": false,
+    "codestruct.trace.server": "off",
+    "codestruct.linting.enabled": true,
+    "codestruct.formatting.enabled": true,
+    "codestruct.completion.enabled": true,
+    "codestruct.client.documentSelector": [
+        {
+            "scheme": "file",
+            "language": "codestruct"
+        },
+        {
+            "scheme": "untitled",
+            "language": "codestruct"
+        }
+    ],
+    "[codestruct]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true
+    }
+} 

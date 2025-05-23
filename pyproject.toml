@@ -1,0 +1,12 @@
+[project]
+name = "codestruct-vscode"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "codestruct",
+]
+
+[tool.uv.sources]
+codestruct = { git = "https://github.com/SarthakMishra/codestruct" }

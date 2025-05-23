@@ -1,0 +1,32 @@
+module: ExampleApp
+  doc: "Example application demonstrating CodeStruct features"
+  
+  class: UserManager [type: SERVICE]
+    doc: "Manages user operations"
+    
+    func: createUser
+      doc: "Creates a new user account"
+      param: userData [type: OBJECT]
+        doc: "User registration data"
+      returns: user [type: USER]
+        doc: "Created user object"
+
+    func: getUserById
+      doc: "Retrieves user by ID"
+      param: userId [type: STRING]
+        doc: "Unique user identifier"
+      returns: user [type: USER, optional: true]
+        doc: "User object or null if not found"
+  
+  class: DatabaseConnection [type: UTILITY]
+    doc: "Handles database connections"
+    
+    func: connect
+      doc: "Establishes database connection"
+      returns: connection [type: CONNECTION]
+        doc: "Database connection object"
+    
+    func: disconnect
+      doc: "Closes database connection"
+      param: connection [type: CONNECTION]
+        doc: "Connection to close" 
